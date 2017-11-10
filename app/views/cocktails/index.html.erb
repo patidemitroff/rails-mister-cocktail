@@ -5,8 +5,10 @@
     <% @cocktails.each do |cocktail| %>
       <li><%= cocktail.name %></li>
       <%= link_to 'See details', cocktail %>
+      <%= link_to 'Add a new dose', new_cocktail_dose_path(cocktail) %>
     <% end %>
   </ul>
 
   <p><%= link_to 'Add a new cocktail', new_cocktail_path %></p>
+
 </div>

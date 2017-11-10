@@ -1,5 +1,4 @@
-class CocktailsController < ApplicationController
-
+class DosesController < ApplicationController
 #   Prefix Verb   URI Pattern                                 Controller#Action
 #              dose DELETE /doses/:id(.:format)                        doses#destroy
 #    cocktail_doses POST   /cocktails/:cocktail_id/doses(.:format)     doses#create
@@ -14,31 +13,38 @@ class CocktailsController < ApplicationController
 #                   DELETE /cocktails/:id(.:format)                    cocktails#destroy
 #              root GET    /                                           cocktails#index
 
-  def index
-    @cocktails = Cocktail.all
-  end
 
   def new
-    @cocktail = Cocktail.new
+    cocktail_find
+    @dose = Dose.new
   end
 
   def create
-    @cocktail = Cocktail.create(cocktail_params)
-    if @cocktail.save
-      redirect_to new_cocktail_dose_path(@cocktail)
+    cocktail_find
+    @dose = Dose.new(doses_params)
+    @dose.cocktail = @cocktail
+    if @dose.save
+      redirect_to cocktail_path(@cocktail)
     else
       render :new
     end
   end
 
-  def show
-    @cocktail = Cocktail.find(params[:id])
+  def destroy
+    @dose = Dose.find(params[:id])
+    @cocktail = @dose.cocktail
+    @dose.destroy
+    redirect_to cocktail_path(@cocktail)
   end
 
   private
 
-  def cocktail_params
-    params.require(:cocktail).permit(:name)
+  def doses_params
+    params.require(:dose).permit(:amount, :description, :ingredient_id)
+  end
+
+  def cocktail_find
+     @cocktail = Cocktail.find(params[:cocktail_id])
   end
 
 end
