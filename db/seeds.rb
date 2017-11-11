@@ -22,3 +22,7 @@ Cocktail.create(name: "Sex on the Beach")
 
 
 Dose.create(amount: "6cl", description: "mix for 6 seconds", ingredient_id: 1, cocktail_id: 1)
+
+
+
+
